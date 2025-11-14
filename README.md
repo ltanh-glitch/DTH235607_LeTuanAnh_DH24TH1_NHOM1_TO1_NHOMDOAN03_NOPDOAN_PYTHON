@@ -177,7 +177,7 @@ Sau khi chạy ứng dụng, sử dụng một trong các tài khoản mẫu:
 | Tài khoản | Mật khẩu | Quyền hạn |
 |-----------|----------|-----------|
 | `admin` | `admin123` | ADMIN (Full quyền) |
-| `quanly1` | `quanly123` | QUẢN LÝ |
+| `quanly` | `quanly123` | QUẢN LÝ |
 | `nhanvien1` | `nhanvien123` | NHÂN VIÊN |
 
 ### Quy trình làm việc cơ bản
