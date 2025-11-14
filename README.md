@@ -126,8 +126,8 @@ Mở file `src/connect_db.py` và cập nhật thông tin kết nối:
 ```python
 def get_connection():
     conn_str = (
-        "DRIVER={ODBC Driver 17 for SQL Server};"
-        "SERVER=YOUR_SERVER_NAME;"  # Thay đổi tên server
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        "SERVER=LAPTOP-TUANANH;"  # Thay đổi tên server
         "DATABASE=QuanLyBanHang;"
         "Trusted_Connection=yes;"
     )
@@ -259,9 +259,6 @@ Mọi đóng góp đều được hoan nghênh! Vui lòng:
 4. Push lên branch (`git push origin feature/TinhNangMoi`)
 5. Tạo Pull Request
 
-## 📝 License
-
-Dự án này được phát hành dưới giấy phép [MIT License](LICENSE).
 
 ## 👨‍💻 Tác giả
 
