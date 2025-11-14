@@ -34,43 +34,63 @@
 - Giao diện KPI Cards trực quan
 
 ### 🛒 Quản lý Hàng hóa
-- Thêm, sửa, xóa sản phẩm
-- Tìm kiếm và lọc sản phẩm theo nhiều tiêu chí
-- Quản lý chất liệu/danh mục sản phẩm
-- Cập nhật số lượng tồn kho
-- Upload và hiển thị hình ảnh sản phẩm
-- Export dữ liệu ra Excel
+- Thêm, sửa, xóa sản phẩm với validation đầy đủ
+- Tìm kiếm và lọc sản phẩm theo tên hàng
+- Quản lý chất liệu/danh mục sản phẩm qua Combobox
+- Cập nhật số lượng tồn kho tự động
+- Upload và hiển thị hình ảnh sản phẩm (Pillow)
+- Hiển thị dữ liệu trong TreeView với giao diện đẹp mắt
+- Xử lý bất đồng bộ với Threading
+- Double-click để chỉnh sửa nhanh
 
 ### 👤 Quản lý Khách hàng
-- Lưu trữ thông tin khách hàng đầy đủ
-- Tìm kiếm khách hàng nhanh chóng
-- Theo dõi lịch sử giao dịch
-- Export danh sách khách hàng
+- Lưu trữ thông tin khách hàng đầy đủ (Tên, Địa chỉ, Điện thoại)
+- Tìm kiếm khách hàng theo tên nhanh chóng
+- Giao diện form 2 cột tối ưu
+- Hiển thị dữ liệu xen kẽ màu (oddrow/evenrow)
+- Validation số điện thoại và thông tin bắt buộc
+- Xử lý bất đồng bộ với Threading
 
 ### 👨‍💼 Quản lý Nhân viên
-- Quản lý thông tin nhân viên
+- Quản lý thông tin nhân viên đầy đủ (Tên, Giới tính, Ngày sinh, SĐT, Địa chỉ)
+- **Chọn ngày sinh với DatePicker (tkcalendar)** tiện lợi
+- Combobox giới tính (Nam, Nữ, Khác)
+- Tìm kiếm theo tên hoặc số điện thoại
 - Phân quyền truy cập hệ thống
-- Theo dõi hiệu suất làm việc
-- Chỉ Admin mới có quyền truy cập
+- Xử lý bất đồng bộ với Threading
+- **Chỉ Admin mới có quyền truy cập**
 
 ### 💰 Lập Hóa đơn Bán hàng
-- Tạo hóa đơn bán hàng nhanh chóng
-- Tự động tính toán thành tiền
-- Giảm giá linh hoạt (theo %, theo số tiền)
-- Cập nhật tồn kho tự động
-- In hóa đơn hoặc export PDF
+- Tạo hóa đơn bán hàng nhanh chóng với giao diện trực quan
+- **Giỏ hàng (Cart)** hiển thị chi tiết từng sản phẩm
+- Tự động điền thông tin nhân viên từ phiên đăng nhập
+- Chọn khách hàng từ Combobox
+- Chọn sản phẩm và tự động cập nhật đơn giá
+- Tính toán giảm giá linh hoạt theo phần trăm (%)
+- **Tự động tính thành tiền** = SL × Đơn giá × (1 - Giảm%)
+- Hiển thị **Tổng tiền hóa đơn** theo thời gian thực
+- **Cập nhật tồn kho tự động** khi lưu hóa đơn
+- Transaction handling đảm bảo dữ liệu nhất quán
 
 ### 📜 Báo cáo Doanh thu
-- Báo cáo chi tiết theo khoảng thời gian
-- Thống kê theo sản phẩm, khách hàng, nhân viên
-- Biểu đồ trực quan
-- Export báo cáo ra Excel/PDF
+- **Báo cáo chi tiết hóa đơn và mặt hàng** trong một bảng
+- Lọc theo khoảng thời gian với **DatePicker (tkcalendar)**
+- Lọc theo nhân viên cụ thể hoặc tất cả
+- Hiển thị chi tiết: Mã HĐ, Ngày, NV, Khách, Mã hàng, Tên hàng, SL, Đơn giá, Giảm giá
+- **Tổng hợp tự động**: Số lượng hóa đơn, Số lượng mặt hàng, Doanh thu gộp
+- **Export dữ liệu ra file CSV** với đầy đủ thông tin
+- Giao diện summary frame với màu sắc nổi bật
+- Xử lý bất đồng bộ với Threading
 
 ### ⚙️ Quản lý Tài khoản
 - Tạo, sửa, xóa tài khoản người dùng
-- Đặt lại mật khẩu
-- Phân quyền truy cập
-- Chỉ Admin có quyền quản lý
+- **Giao diện bảo mật** với App Bar tối màu
+- Liên kết tài khoản với nhân viên qua Combobox
+- **Mật khẩu hiển thị dạng ● (masked)** với nền tối
+- Phân quyền: ADMIN (0), Quản lý (1), Nhân viên (2)
+- Trạng thái tài khoản: Hoạt động (1), Bị khóa (0)
+- Tìm kiếm theo tên đăng nhập hoặc tên nhân viên
+- **Chỉ Admin có quyền truy cập module này**
 
 ## 🔧 Công nghệ sử dụng
 
@@ -78,11 +98,16 @@
 |-----------|----------|
 | **Python 3.8+** | Ngôn ngữ lập trình chính |
 | **Tkinter** | Xây dựng giao diện đồ họa (GUI) |
+| **ttk (Themed Tkinter)** | Widget nâng cao (Treeview, Combobox) |
 | **pyodbc** | Kết nối và tương tác với SQL Server |
 | **SQL Server** | Hệ quản trị cơ sở dữ liệu |
+| **Threading** | Xử lý bất đồng bộ, tránh đơ UI |
+| **tkcalendar** | DatePicker cho chọn ngày tháng |
 | **Pillow (PIL)** | Xử lý hình ảnh sản phẩm |
-| **openpyxl/xlsxwriter** | Export dữ liệu ra Excel |
-| **reportlab** | Tạo file PDF |
+| **csv** | Export dữ liệu ra file CSV |
+| **datetime** | Xử lý ngày tháng, timestamp |
+
+
 
 ## 💻 Yêu cầu hệ thống
 
@@ -95,10 +120,11 @@
 ### Thư viện Python
 ```
 pyodbc>=4.0.0
+tkcalendar>=1.6.0
 Pillow>=9.0.0
-openpyxl>=3.0.0
-reportlab>=3.6.0
 ```
+
+**Lưu ý**: Module `csv`, `threading`, `datetime` đã có sẵn trong Python standard library.
 
 ## 📥 Cài đặt
 
@@ -110,7 +136,12 @@ cd DoAn_QuanLyBanHang
 
 ### Bước 2: Cài đặt thư viện Python
 ```bash
-pip install pyodbc Pillow openpyxl reportlab
+pip install pyodbc tkcalendar Pillow
+```
+
+Hoặc cài đặt từ file requirements (nếu có):
+```bash
+pip install -r requirements.txt
 ```
 
 ### Bước 3: Cấu hình SQL Server
@@ -210,6 +241,46 @@ Sau khi chạy ứng dụng, sử dụng một trong các tài khoản mẫu:
 - ❌ Không xem báo cáo tài chính
 - ❌ Không quản lý nhân viên và tài khoản
 
+## 🎨 Tính năng kỹ thuật nổi bật
+
+### 1. **Threading (Đa luồng)**
+- Tất cả các thao tác database đều sử dụng Threading
+- Tránh đơ giao diện khi load dữ liệu lớn
+- Status bar hiển thị trạng thái "Đang tải..." khi xử lý
+
+### 2. **DatePicker với tkcalendar**
+- Module Quản lý Nhân viên: Chọn ngày sinh trực quan
+- Module Báo cáo Doanh thu: Lọc theo khoảng thời gian
+- Format ngày: `yyyy-mm-dd` theo chuẩn SQL Server
+- Locale tiếng Việt (`vi_VN`)
+
+### 3. **TreeView với Style tùy chỉnh**
+- Hiển thị dữ liệu dạng bảng chuyên nghiệp
+- Xen kẽ màu (oddrow/evenrow) dễ đọc
+- Double-click để chỉnh sửa nhanh
+- Scrollbar tự động khi dữ liệu nhiều
+
+### 4. **State Management (Quản lý trạng thái)**
+- 3 trạng thái: VIEW, ADD, EDIT
+- Tự động enable/disable các nút phù hợp
+- Readonly fields khi cần thiết
+
+### 5. **Transaction Handling**
+- Module Hóa đơn sử dụng Transaction
+- Rollback tự động nếu có lỗi
+- Đảm bảo tính toàn vẹn dữ liệu
+
+### 6. **Export dữ liệu**
+- Module Báo cáo: Export ra CSV với encoding UTF-8-BOM
+- Tự động mở file sau khi xuất
+- Tên file có timestamp để dễ quản lý
+
+### 7. **UI/UX Design**
+- Color palette nhất quán (Material Design)
+- Icon Emoji làm giao diện sinh động
+- Responsive layout với grid và pack
+- LabelFrame phân nhóm rõ ràng
+
 ## 🗄️ Cơ sở dữ liệu
 
 ### Sơ đồ quan hệ chính
@@ -239,15 +310,45 @@ tblNhanVien (Nhân viên) → tblTaiKhoan (Tài khoản)
 | `tblChiTietHDBan` | Chi tiết các sản phẩm trong hóa đơn |
 
 
+## ❓ Troubleshooting (Xử lý lỗi thường gặp)
+
+### Lỗi: "Module tkcalendar not found"
+```bash
+pip install tkcalendar
+```
+
+### Lỗi: "Can't connect to SQL Server"
+1. Kiểm tra SQL Server đã chạy chưa
+2. Kiểm tra tên Server trong `connect_db.py`
+3. Thử dùng `localhost` hoặc `.\SQLEXPRESS`
+4. Kiểm tra ODBC Driver đã cài đặt
+
+### Lỗi: "Login failed for user"
+1. Đảm bảo sử dụng `Trusted_Connection=yes` (Windows Authentication)
+2. Hoặc thêm `UID` và `PWD` nếu dùng SQL Authentication
+
+### Lỗi encoding tiếng Việt
+- Đảm bảo file Python có `# -*- coding: utf-8 -*-` ở đầu
+- Export CSV sử dụng `utf-8-sig` để tương thích Excel
+
+### Giao diện bị lỗi font
+- Cài đặt font "Segoe UI" hoặc "Arial" trên hệ thống
+- Thay đổi font trong code nếu cần
+
 ## 🚀 Tính năng nâng cao (Đang phát triển)
 
 - [ ] Quản lý nhập hàng từ nhà cung cấp
-- [ ] Tích hợp quét mã vạch
+- [ ] Export Excel nâng cao (openpyxl, xlsxwriter)
+- [ ] Tạo báo cáo PDF với ReportLab
+- [ ] In hóa đơn trực tiếp từ máy in
+- [ ] Tích hợp quét mã vạch (barcode scanner)
 - [ ] Gửi SMS/Email thông báo cho khách hàng
-- [ ] Dashboard với biểu đồ động (Chart.js hoặc Matplotlib)
+- [ ] Dashboard với biểu đồ Matplotlib/Plotly
 - [ ] Sao lưu và khôi phục dữ liệu tự động
 - [ ] Chế độ Dark Mode
-- [ ] Multi-language support
+- [ ] Multi-language support (i18n)
+- [ ] Logging và audit trail
+- [ ] API REST để tích hợp mobile app
 
 ## 🤝 Đóng góp
 
