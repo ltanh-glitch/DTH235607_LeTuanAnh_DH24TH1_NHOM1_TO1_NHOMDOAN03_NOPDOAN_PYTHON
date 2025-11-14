@@ -10,7 +10,6 @@
 - [Hướng dẫn sử dụng](#-hướng-dẫn-sử-dụng)
 - [Phân quyền người dùng](#-phân-quyền-người-dùng)
 - [Cơ sở dữ liệu](#-cơ-sở-dữ-liệu)
-- [Screenshots](#-screenshots)
 - [Tác giả](#-tác-giả)
 
 ## 📖 Giới thiệu
