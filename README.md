@@ -282,6 +282,8 @@ Sau khi chạy ứng dụng, sử dụng một trong các tài khoản mẫu:
 
 ## 🗄️ Cơ sở dữ liệu
 
+![alt text](image.png)
+
 ### Sơ đồ quan hệ chính
 
 ```
