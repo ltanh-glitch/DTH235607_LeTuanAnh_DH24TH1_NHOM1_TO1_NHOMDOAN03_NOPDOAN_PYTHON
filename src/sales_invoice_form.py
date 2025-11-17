@@ -19,7 +19,7 @@ class SalesInvoiceForm:
         self.current_state = 'VIEW'
         self.current_mahd = None
         self.cart_items = {} # {MaHang: {data}} - Giỏ hàng
-        self.product_map = {} # {MaHang: TenHang}
+        self.product_map = {} # {MaHang: TenHang, DonGiaNhap, SoLuongTon}
         self.customer_map = {} # {TenKhach: MaKhach}
         
         main_frame = tk.Frame(master, bg="#ECEFF1", padx=10, pady=10)
@@ -167,11 +167,11 @@ class SalesInvoiceForm:
             self.entries["ma_khach"]["values"] = cust_names
             self.entries["ma_khach"].set(cust_names[0])
             
-            # 2. Load Mặt hàng
-            cursor.execute("SELECT MaHang, TenHang, DonGiaNhap FROM tblHang ORDER BY TenHang")
+            # 2. Load Mặt hàng (bao gồm SoLuong tồn kho)
+            cursor.execute("SELECT MaHang, TenHang, DonGiaNhap, SoLuong FROM tblHang ORDER BY TenHang")
             prod_data = cursor.fetchall()
-            # Lưu cả DonGiaNhap (dùng làm giá đề xuất bán)
-            self.product_map = {r.TenHang: {'MaHang': r.MaHang, 'DonGiaNhap': r.DonGiaNhap} for r in prod_data}
+            # Lưu cả DonGiaNhap và SoLuongTon
+            self.product_map = {r.TenHang: {'MaHang': r.MaHang, 'DonGiaNhap': r.DonGiaNhap, 'SoLuongTon': r.SoLuong} for r in prod_data}
             prod_names = ["-- Chọn mặt hàng --"] + list(self.product_map.keys())
             self.detail_entries["ma_hang"]["values"] = prod_names
             self.detail_entries["ma_hang"].set(prod_names[0])
@@ -201,18 +201,29 @@ class SalesInvoiceForm:
     # LOGIC GIỎ HÀNG (CART LOGIC)
     # =======================================================
     def update_don_gia(self, event=None):
-        """Cập nhật Đơn giá khi chọn Mặt hàng."""
+        """Cập nhật Đơn giá và hiển thị số lượng tồn kho khi chọn Mặt hàng."""
         selected_name = self.detail_entries["ma_hang"].get()
         if selected_name in self.product_map:
             price = self.product_map[selected_name]['DonGiaNhap'] # Dùng giá nhập làm giá bán đề xuất
+            so_luong_ton = self.product_map[selected_name]['SoLuongTon']
+            
             self.detail_entries["don_gia"].config(state="normal")
             self.detail_entries["don_gia"].delete(0, tk.END)
             self.detail_entries["don_gia"].insert(0, f"{price:,.0f}")
             self.detail_entries["don_gia"].config(state="readonly")
+            
+            # Hiển thị số lượng tồn kho trên status bar
+            self.status_bar.config(text=f"📦 Tồn kho: {so_luong_ton} {self.get_don_vi(selected_name)}")
         else:
             self.detail_entries["don_gia"].config(state="normal")
             self.detail_entries["don_gia"].delete(0, tk.END)
             self.detail_entries["don_gia"].config(state="readonly")
+            self.status_bar.config(text="Sẵn sàng.")
+    
+    def get_don_vi(self, ten_hang):
+        """Lấy đơn vị tính của sản phẩm (nếu cần)."""
+        # Đơn giản trả về 'SP' (Sản phẩm), có thể mở rộng để lấy từ DB
+        return "SP"
 
 
     def add_to_cart(self):
@@ -230,6 +241,32 @@ class SalesInvoiceForm:
                  raise ValueError("Số lượng phải lớn hơn 0.")
             
             ma_hang = self.product_map[selected_name]['MaHang']
+            so_luong_ton = self.product_map[selected_name]['SoLuongTon']
+            
+            # **KIỂM TRA SỐ LƯỢNG TỒN KHO**
+            # Tính tổng số lượng đã có trong giỏ (nếu có)
+            so_luong_trong_gio = self.cart_items[ma_hang]['SoLuong'] if ma_hang in self.cart_items else 0
+            tong_so_luong_mua = so_luong_trong_gio + so_luong
+            
+            if tong_so_luong_mua > so_luong_ton:
+                # Số lượng không đủ
+                if so_luong_ton == 0:
+                    messagebox.showerror("⚠️ Hết hàng!", 
+                                       f"Sản phẩm '{selected_name}' đã HẾT HÀNG trong kho!\n\n"
+                                       f"📦 Tồn kho hiện tại: 0\n"
+                                       f"Vui lòng chọn sản phẩm khác hoặc nhập hàng.")
+                else:
+                    con_lai = so_luong_ton - so_luong_trong_gio
+                    messagebox.showwarning("⚠️ Không đủ hàng!", 
+                                         f"Số lượng tồn kho KHÔNG ĐỦ cho sản phẩm '{selected_name}'!\n\n"
+                                         f"📦 Tồn kho hiện tại: {so_luong_ton}\n"
+                                         f"🛒 Đã có trong giỏ: {so_luong_trong_gio}\n"
+                                         f"✅ Còn có thể thêm tối đa: {con_lai}\n"
+                                         f"❌ Bạn đang muốn thêm: {so_luong}\n\n"
+                                         f"Vui lòng giảm số lượng hoặc chọn sản phẩm khác!")
+                self.status_bar.config(text=f"❌ Không đủ hàng! Tồn kho: {so_luong_ton}, Còn lại: {so_luong_ton - so_luong_trong_gio}")
+                return  # Không thêm vào giỏ
+            
             thanh_tien = so_luong * don_gia # Giả định giảm giá = 0
 
             # 2. Cập nhật giỏ hàng
@@ -252,6 +289,7 @@ class SalesInvoiceForm:
             self.refresh_cart_view()
             self.clear_detail_entries()
             self.update_summary()
+            self.status_bar.config(text=f"✅ Đã thêm {so_luong} '{selected_name}' vào hóa đơn.")
 
         except ValueError as e:
             messagebox.showwarning("Lỗi nhập liệu", str(e))
