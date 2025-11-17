@@ -282,7 +282,8 @@ Sau khi chạy ứng dụng, sử dụng một trong các tài khoản mẫu:
 
 ## 🗄️ Cơ sở dữ liệu
 
-![alt text](image.png)
+<img width="877" height="570" alt="image" src="https://github.com/user-attachments/assets/41c99985-bd80-4f83-ba88-8c005f0d40e8" />
+
 
 ### Sơ đồ quan hệ chính
 
