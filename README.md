@@ -9,7 +9,7 @@
 - [Cấu trúc dự án](#-cấu-trúc-dự-án)
 - [Hướng dẫn sử dụng](#-hướng-dẫn-sử-dụng)
 - [Phân quyền người dùng](#-phân-quyền-người-dùng)
-- [Cơ sở dữ liệu](#-cơ-sở-dữ-liệu)
+- [Cơ sở dữ liệu](#%EF%B8%8F-cơ-sở-dữ-liệu)
 - [Tác giả](#-tác-giả)
 
 ## 📖 Giới thiệu
