@@ -101,20 +101,18 @@ CREATE TABLE dbo.tblChiTietHDBan (
     DonGia DECIMAL(18,2) NOT NULL, -- Đơn giá bán tại thời điểm lập chi tiết
     GiamGia DECIMAL(5,2) NULL DEFAULT 0, -- Giảm giá (dưới dạng %)
     -- Cột tính toán tự động: Số lượng * Đơn giá * (1 - Giảm giá/100)
-    ThanhTien AS (SoLuong * DonGia * (1 - ISNULL(GiamGia,0)/100.0)) PERSISTED,
-    PRIMARY KEY (MaHDBan, MaHang), -- Khóa chính là tổ hợp của Mã HĐ và Mã Hàng
-    CONSTRAINT FK_CTHDBan_HDBan FOREIGN KEY (MaHDBan)
-        REFERENCES dbo.tblHDBan(MaHDBan)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE, -- Xóa Chi tiết HĐ khi Hóa đơn chính bị xóa
-    CONSTRAINT FK_CTHDBan_Hang FOREIGN KEY (MaHang)
-        REFERENCES dbo.tblHang(MaHang)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION -- Cấm xóa Hàng hóa nếu còn tồn tại trong Chi tiết HĐ
+    ThanhTien AS (SoLuong * DonGia * (1 - ISNULL(GiamGia,0)/100.0)) PERSISTED,
+    PRIMARY KEY (MaHDBan, MaHang), -- Khóa chính là tổ hợp của Mã HĐ và Mã Hàng
+    CONSTRAINT FK_CTHDBan_HDBan FOREIGN KEY (MaHDBan)
+        REFERENCES dbo.tblHDBan(MaHDBan)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE, -- Xóa Chi tiết HĐ khi Hóa đơn chính bị xóa
+    CONSTRAINT FK_CTHDBan_Hang FOREIGN KEY (MaHang)
+        REFERENCES dbo.tblHang(MaHang)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE -- Xóa Chi tiết HĐ khi Hàng hóa bị xóa (cho phép xóa hàng hóa)
 );
-GO
-
--- ==========================================
+GO-- ==========================================
 -- BẢNG: tblTaiKhoan (Quản lý tài khoản đăng nhập)
 -- ==========================================
 CREATE TABLE dbo.tblTaiKhoan (
