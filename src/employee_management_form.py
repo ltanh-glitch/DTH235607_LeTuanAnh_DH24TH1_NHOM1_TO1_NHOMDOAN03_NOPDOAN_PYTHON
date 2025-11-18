@@ -137,8 +137,8 @@ class EmployeeManagementForm:
                 query = "SELECT MaNhanVien, TenNhanVien, GioiTinh, NgaySinh, DienThoai, DiaChi FROM tblNhanVien"
                 params = []
                 if search_term:
-                    query += " WHERE TenNhanVien COLLATE Vietnamese_CI_AI LIKE ? OR DienThoai LIKE ?"
-                    params.extend([f"%{search_term}%", f"%{search_term}%"])
+                    query += " WHERE TenNhanVien COLLATE Vietnamese_CI_AI LIKE ? OR DienThoai LIKE ? OR DiaChi COLLATE Vietnamese_CI_AI LIKE ? OR GioiTinh COLLATE Vietnamese_CI_AI LIKE ?"
+                    params.extend([f"%{search_term}%", f"%{search_term}%", f"%{search_term}%", f"%{search_term}%"])
                 query += " ORDER BY MaNhanVien ASC"
                 cursor.execute(query, params)
                 rows = cursor.fetchall()
